@@ -24,6 +24,7 @@ class User extends Authenticatable
         'name',
         'username',
         'password',
+        'id_role',
     ];
 
     /**
@@ -33,7 +34,6 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
     ];
 
     /**
@@ -47,5 +47,12 @@ class User extends Authenticatable
             'password' => 'hashed',
             'id_users' => 'integer',
         ];
+    }
+    /**
+     * Get the role associated with the User.
+     */
+    public function role(): BelongsTo
+    {
+        return $this->belongsTo(Role::class, 'id_role', 'id_role');
     }
 }
