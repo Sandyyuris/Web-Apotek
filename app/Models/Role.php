@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Role;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Role extends Model
@@ -17,7 +16,7 @@ class Role extends Model
         'nama_role',
     ];
 
-    protected $table = 'roles'; // Pastikan nama tabel benar
+    protected $table = 'roles';
 
     public function users(): HasMany
     {
