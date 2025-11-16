@@ -1,3 +1,6 @@
+<?php
+// sandyyuris/web-apotek/Web-Apotek-76618f6dd49995b1c531bdb0b4ef886e26e1c55d/resources/views/layouts/app.blade.php
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -26,9 +29,39 @@
             transition: all 0.3s ease-in-out;
             cursor: pointer;
         }
-        .navbar-brand .fa-pills {
-            color: #1abc9c;
+
+        /* === Penyesuaian Navbar Baru === */
+        .navbar-brand {
+            color: white !important; /* Warna brand (teks) harus putih di dark bg */
+            margin-right: 1.5rem !important;
         }
+        .navbar-brand .fa-pills {
+            color: white; /* Ikon juga putih */
+        }
+        .navbar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.85); /* Warna teks link default (putih agak pudar) */
+            transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+        }
+        .navbar-nav .nav-link:hover {
+            color: white; /* Hover menjadi putih solid */
+            font-weight: bold;
+        }
+
+        /* Gaya untuk Tautan Aktif */
+        .navbar-nav .nav-link.active {
+            color: white !important;
+            font-weight: bold;
+            border-bottom: 3px solid white; /* Garis bawah putih untuk indikator aktif */
+            padding-bottom: 8px; /* Tambahkan padding agar garis tidak menempel pada teks */
+            /* Opsi: tambahkan background sedikit transparan agar lebih jelas */
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 4px 4px 0 0;
+        }
+
+        /* ============================== */
+
         .footer {
             background-color: #2c3e50; /* Warna gelap untuk footer */
             color: white;
@@ -48,39 +81,14 @@
 <body class="app-bg">
 
     {{-- Navbar --}}
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="{{ route('artikel.index') }}">
-                <i class="fas fa-pills me-2"></i>
-                APOTEK ARTIKEL
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    {{-- Tombol Login/Masuk di kanan --}}
-                    <li class="nav-item">
-                        <a class="btn btn-primary main-bg fw-bold" href="{{ route('login') }}">
-                            <i class="fas fa-sign-in-alt me-1"></i> Masuk
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    @include('components.navbar')
 
     <main class="py-4">
         @yield('content')
     </main>
 
     {{-- Footer --}}
-    <footer class="footer py-4 mt-5">
-        <div class="container text-center">
-            <p class="mb-0">&copy; {{ date('Y') }} Apotek Artikel Web. Hak Cipta Dilindungi.</p>
-            <p class="mb-0"><small>Dibuat dengan semangat hidup sehat.</small></p>
-        </div>
-    </footer>
+    @include('components.footer')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     @yield('scripts')
