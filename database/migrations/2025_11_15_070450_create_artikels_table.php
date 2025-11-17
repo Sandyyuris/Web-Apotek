@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('id_artikel');
             $table->string('kategori');
             $table->string('judul');
+            $table->string('path_foto')->nullable();
             $table->longText('isi');
             $table->timestamps();
         });

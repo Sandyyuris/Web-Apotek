@@ -21,6 +21,7 @@ class Artikel extends Model
         'kategori',
         'judul',
         'isi',
+        'path_foto',
     ];
 
     /**
