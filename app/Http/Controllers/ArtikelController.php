@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Artikel; // <-- TAMBAHKAN INI
 use Illuminate\Http\Request;
 
 class ArtikelController extends Controller
 {
     public function index()
     {
-        return view('artikel');
+        $articles = Artikel::latest()->paginate(9);
+        return view('artikel', compact('articles'));
     }
 
     public function detailArtikel($slug)
