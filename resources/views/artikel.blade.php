@@ -75,7 +75,8 @@
 
     {{-- Tampilkan tautan paginasi --}}
     <div class="d-flex justify-content-center mt-4">
-        {{ $articles->links('pagination::bootstrap-5') }}
+        {{-- Menambahkan parameter 'kategori' ke link paginasi agar filter tetap berlaku --}}
+        {{ $articles->appends(request()->query())->links('pagination::bootstrap-5') }}
     </div>
 </div>
 @endsection

@@ -28,6 +28,8 @@
             transform: translateY(-5px);
             transition: all 0.3s ease-in-out;
             cursor: pointer;
+            border-bottom: #1abc9c 4px solid !important;
+            border-right: #1abc9c 4px solid !important;
         }
 
         /* === Penyesuaian Navbar Baru === */
@@ -41,8 +43,8 @@
         .navbar-nav .nav-link {
             color: rgba(255, 255, 255, 0.85); /* Warna teks link default (putih agak pudar) */
             transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
-            padding-left: 1rem !important;
-            padding-right: 1rem !important;
+            padding-left: 1.5rem !important;
+            padding-right: 1.5rem !important;
         }
         .navbar-nav .nav-link:hover {
             color: white; /* Hover menjadi putih solid */
@@ -53,10 +55,9 @@
         .navbar-nav .nav-link.active {
             color: white !important;
             font-weight: bold;
-            border-bottom: 3px solid white; /* Garis bawah putih untuk indikator aktif */
-            padding-bottom: 8px; /* Tambahkan padding agar garis tidak menempel pada teks */
-            /* Opsi: tambahkan background sedikit transparan agar lebih jelas */
-            background-color: rgba(0, 0, 0, 0.1);
+            border-bottom: 3px solid white;
+            padding-bottom: 8px;
+            /* background-color: rgba(0, 0, 0, 0.1); */
             border-radius: 4px 4px 0 0;
         }
 
@@ -75,6 +76,8 @@
         .category-nav .nav-link:hover, .category-nav .nav-link.active {
             color: #1abc9c;
             border-bottom: 3px solid #1abc9c;
+            border-right: 3px solid #1abc9c;
+            background-color: transparent !important;
         }
     </style>
 </head>

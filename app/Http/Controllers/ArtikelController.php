@@ -16,8 +16,8 @@ class ArtikelController extends Controller
         if ($kategori && $kategori !== 'Semua Artikel') {
             $query->where('kategori', $kategori);
         }
-        $articles = Artikel::latest()->paginate(9);
-        return view('artikel', compact('articles'));
+        $articles = $query->paginate(9);
+        return view('artikel', compact('articles', 'kategori'));
     }
 
     public function detailArtikel($id, $slug)
