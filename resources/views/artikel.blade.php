@@ -5,12 +5,31 @@
 @section('content')
 <div class="container">
     {{-- Pilihan Kategori di bawah Navbar --}}
+    @php
+        // Ambil kategori aktif dari controller (variabel 'kategori'). Jika null, anggap 'Semua Artikel'.
+        $activeKategori = $kategori ?? 'Semua Artikel';
+
+        // Definisikan kategori yang tersedia (sesuai data seeder: 'Obat', 'Tips Hidup Sehat')
+        $categories = ['Semua Artikel', 'Obat', 'Tips Hidup Sehat'];
+    @endphp
+
     <div class="row mb-4">
         <div class="col-12">
             <nav class="nav nav-pills nav-fill category-nav bg-white shadow-sm p-2 rounded">
-                <a class="nav-link active" aria-current="page" href="{{ route('artikel.index') }}">Semua Artikel</a>
-                <a class="nav-link" href="#">Obat</a>
-                <a class="nav-link" href="#">Tips Hidup Sehat</a>
+                @foreach ($categories as $cat)
+                    @php
+                        $url = route('artikel.index');
+                        if ($cat !== 'Semua Artikel') {
+                            $url = route('artikel.index', ['kategori' => $cat]);
+                        }
+                        $isActive = ($activeKategori === $cat);
+                    @endphp
+                    <a class="nav-link {{ $isActive ? 'active' : '' }}"
+                        aria-current="{{ $isActive ? 'page' : '' }}"
+                        href="{{ $url }}">
+                        {{ $cat }}
+                    </a>
+                @endforeach
             </nav>
         </div>
     </div>
@@ -21,7 +40,7 @@
         @forelse ($articles as $article)
         <div class="col-md-4 mb-4">
             {{-- Menggunakan Str::slug dari Illuminate\Support\Str untuk URL yang bersih --}}
-            <a href="{{ route('artikel.detail', ['slug' => Illuminate\Support\Str::slug($article->judul)]) }}" class="text-decoration-none">
+            <a href="{{ route('artikel.detail', ['id' => $article->id_artikel, 'slug' => Illuminate\Support\Str::slug($article->judul)]) }}" class="text-decoration-none">
                 <div class="card shadow-sm h-100 card-hover">
                     {{-- Gambar: Menggunakan path_foto dari database. Jika null, gunakan placeholder. --}}
                     <img src="{{ $article->path_foto ?? 'https://via.placeholder.com/400x250?text=Apotek+Artikel' }}" class="card-img-top" alt="{{ $article->judul }}" style="height: 180px; object-fit: cover;">

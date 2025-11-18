@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Detail Artikel')
+{{-- MENGGANTI JUDUL PLACEHOLDER DENGAN JUDUL ARTIKEL ASLI --}}
+@section('title', $article->judul)
 
 @section('content')
 <div class="container mt-4">
@@ -13,23 +14,27 @@
 
             <div class="card shadow-sm p-4">
                 {{-- Judul Artikel --}}
-                <h1 class="fw-bold main-color mb-3">Judul Artikel Sesuai Kategori (Contoh Detail)</h1>
+                <h1 class="fw-bold main-color mb-3">{{ $article->judul }}</h1>
 
                 {{-- Info Penulis/Kategori --}}
                 <div class="text-muted mb-4">
                     <span class="me-3"><i class="fas fa-user-edit me-1"></i> Oleh: Penulis Apotek</span>
-                    <span class="me-3"><i class="fas fa-tag me-1"></i> Kategori: Obat</span>
-                    <span><i class="fas fa-calendar-alt me-1"></i> Tanggal: 15 November 2025</span>
+                    {{-- MENAMPILKAN KATEGORI ASLI --}}
+                    <span class="me-3"><i class="fas fa-tag me-1"></i> Kategori: {{ $article->kategori }}</span>
+                    {{-- MENAMPILKAN TANGGAL DARI CREATED_AT --}}
+                    <span><i class="fas fa-calendar-alt me-1"></i> Tanggal: {{ \Carbon\Carbon::parse($article->created_at)->translatedFormat('d F Y') }}</span>
                 </div>
 
                 {{-- Gambar Utama --}}
-                <img src="https://via.placeholder.com/800x450?text=Gambar+Utama+Artikel" class="img-fluid rounded mb-4 shadow-sm" alt="Gambar Utama">
+                {{-- MENAMPILKAN GAMBAR ASLI ATAU PLACEHOLDER --}}
+                <img src="{{ $article->path_foto ?? 'https://via.placeholder.com/800x450?text=Gambar+Utama+Artikel' }}" class="img-fluid rounded mb-4 shadow-sm" alt="{{ $article->judul }}">
 
                 {{-- Isi Artikel (Lorem Ipsum) --}}
                 <div class="article-content">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    {{-- MENAMPILKAN ISI ARTIKEL ASLI --}}
+                    <p>{!! nl2br(e($article->isi)) !!}</p>
 
-                    <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+                    {{-- Konten statis di bawah ini bisa dihapus atau dikondisikan jika tidak relevan dengan data seeder --}}
 
                     <h3 class="fw-bold mt-4 mb-3 main-color">Sub Judul: Informasi Tambahan</h3>
                     <p>Curabitur sit amet feugiat sem, in euismod mi. Suspendisse potenti. Nam non elit vel sem elementum vestibulum. Aliquam erat volutpat. Nulla facilisi. Proin vel ex at sem tristique pharetra a in ex. Integer non ipsum sapien. Curabitur vel odio non urna eleifend maximus.</p>

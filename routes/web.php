@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 // Halaman Utama / Artikel Index
 Route::get('/', [ArtikelController::class, 'index'])->name('artikel.index');
-Route::get('artikel/{slug}', [ArtikelController::class, 'detailArtikel'])->name('artikel.detail');
+Route::get('artikel/{id}/{slug}', [ArtikelController::class, 'detailArtikel'])->name('artikel.detail');
 
 // Rute Login
 Route::get('login', [LoginController::class, 'index'])->name('login');
