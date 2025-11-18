@@ -17,12 +17,12 @@ class ArtikelController extends Controller
             $query->where('kategori', $kategori);
         }
         $articles = $query->paginate(9);
-        return view('artikel', compact('articles', 'kategori'));
+        return view('artikel.index', compact('articles', 'kategori'));
     }
 
     public function detailArtikel($id, $slug)
     {
         $article = Artikel::findOrFail($id);
-        return view('detail_artikel', compact('article'));
+        return view('artikel.detail_artikel', compact('article'));
     }
 }

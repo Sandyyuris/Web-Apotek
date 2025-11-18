@@ -4,7 +4,7 @@
         <a class="navbar-brand fw-bold" href="{{ route('artikel.index') }}">
             <i class="fas fa-pills me-2"></i>
             SHANN APOTEK
-        </a>    
+        </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -23,9 +23,11 @@
                 <li class="nav-item">
                     {{-- Active logic: Placeholder untuk Transaksi Obat. Gunakan rute yang mungkin di masa depan --}}
                     @php
-                        $isTransaksiActive = request()->is('transaksi*');
+                        // Memeriksa rute transaksi/produk
+                        $isTransaksiActive = request()->routeIs('transaksi.index') || request()->routeIs('transaksi.*');
                     @endphp
-                    <a class="nav-link {{ $isTransaksiActive ? 'active' : '' }}" href="#transaksi">Transaksi Obat</a>
+                    {{-- Ganti teks menjadi 'Transaksi Produk' atau 'Toko' --}}
+                    <a class="nav-link {{ $isTransaksiActive ? 'active' : '' }}" href="{{ route('transaksi.index') }}">Belanja</a>
                 </li>
                 <li class="nav-item">
                     {{-- Active logic: Placeholder untuk Chat dengan Dokter. Gunakan rute yang mungkin di masa depan --}}
@@ -60,6 +62,7 @@
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="#profil"><i class="fas fa-id-card me-2"></i> Lihat Profil</a></li>
                             <li><a class="dropdown-item" href="#edit"><i class="fas fa-user-edit me-2"></i> Edit Profil</a></li>
+                            <li></li><a class="dropdown-item" href="#riwayat"><i class="fas fa-history me-2"></i> Riwayat</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <form action="{{ route('logout') }}" method="POST" class="m-0">

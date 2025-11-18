@@ -19,3 +19,14 @@ Route::post('register', [RegisterController::class, 'register']);
 
 // Rute Logout
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::middleware(['auth'])->group(function () {
+    // Tampilkan daftar produk dan keranjang. Menerima parameter 'kategori' di URL.
+    Route::get('transaksi/produk', [TransaksiController::class, 'index'])->name('transaksi.index');
+    // Tambah ke keranjang
+    Route::post('transaksi/tambah-keranjang', [TransaksiController::class, 'addToCart'])->name('transaksi.addToCart');
+    // Hapus dari keranjang
+    Route::get('transaksi/hapus-keranjang/{id_produk}', [TransaksiController::class, 'removeFromCart'])->name('transaksi.removeFromCart'); // <-- GANTI PARAMETER
+    // Proses checkout
+    Route::post('transaksi/checkout', [TransaksiController::class, 'checkout'])->name('transaksi.checkout');
+});

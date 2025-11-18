@@ -11,17 +11,10 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-    // Definisikan Primary Key sesuai permintaan
     protected $primaryKey = 'id_users';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'name',
         'username',
@@ -29,20 +22,10 @@ class User extends Authenticatable
         'id_role',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
         'password',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -50,11 +33,14 @@ class User extends Authenticatable
             'id_users' => 'integer',
         ];
     }
-    /**
-     * Get the role associated with the User.
-     */
+
     public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class, 'id_role', 'id_role');
+    }
+
+    public function transaksis(): HasMany
+    {
+        return $this->hasMany(Transaksi::class, 'id_users', 'id_users');
     }
 }
