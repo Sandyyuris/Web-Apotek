@@ -11,11 +11,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
+
 class TransaksiController extends Controller
 {
-    /**
-     * Menampilkan daftar produk, kategori, dan keranjang.
-     */
     public function index(Request $request)
     {
         $kategoris = Kategori::orderBy('nama_kategori')->get();
