@@ -3,10 +3,29 @@
 @section('title', 'Toko / Transaksi Produk')
 
 @section('content')
-<div class="container-fluid mt-4">
+<div class="container-fluid">
     <div class="row">
         {{-- Kolom Daftar Produk & Filter Kategori (10 kolom - Diperluas) --}}
         <div class="col-lg-9">
+
+            {{-- Search Form (BARU) --}}
+            <div class="row mb-4">
+                <div class="col-12">
+                    <form action="{{ route('transaksi.index') }}" method="GET">
+                        <div class="input-group">
+                            <input type="text" name="q" class="form-control form-control-lg" placeholder="Cari produk berdasarkan nama..." value="{{ request('q') }}">
+                            {{-- Pertahankan filter kategori jika ada --}}
+                            @if (request('kategori'))
+                                <input type="hidden" name="kategori" value="{{ request('kategori') }}">
+                            @endif
+                            <button class="btn main-bg text-white btn-lg" type="submit">
+                                <i class="fas fa-search"></i> Cari
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
             {{-- Filter Kategori (Diubah agar mirip artikel) --}}
             <div class="row mb-4">
                 <div class="col-12">
@@ -14,11 +33,12 @@
                         {{-- Opsi "Semua Produk" --}}
                         @php
                             $isActive = $selectedKategori === null;
+                            $baseRoute = ['q' => request('q')]; // <-- BARU: Ambil query 'q'
                         @endphp
                         <li class="nav-item me-3">
                             <a class="nav-link {{ $isActive ? 'active' : '' }}"
                                 aria-current="{{ $isActive ? 'page' : '' }}"
-                                href="{{ route('transaksi.index') }}">
+                                href="{{ route('transaksi.index', array_filter($baseRoute)) }}"> {{-- Gunakan array_filter untuk menghilangkan null --}}
                                 Semua Produk
                             </a>
                         </li>
@@ -30,7 +50,7 @@
                             <li class="nav-item me-3">
                                 <a class="nav-link {{ $isActive ? 'active' : '' }}"
                                     aria-current="{{ $isActive ? 'page' : '' }}"
-                                    href="{{ route('transaksi.index', ['kategori' => $kategori->slug]) }}">
+                                    href="{{ route('transaksi.index', array_merge($baseRoute, ['kategori' => $kategori->slug])) }}">
                                     {{ $kategori->nama_kategori }}
                                 </a>
                             </li>
@@ -101,7 +121,7 @@
 
             {{-- Tautan paginasi --}}
             <div class="d-flex justify-content-center mt-4">
-                {{ $produks->links('pagination::bootstrap-5') }}
+                {{ $produks->appends(request()->query())->links('pagination::bootstrap-5') }} {{-- Menambahkan appends(request()->query()) untuk membawa parameter q dan kategori --}}
             </div>
         </div>
 

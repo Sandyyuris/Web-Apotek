@@ -4,7 +4,24 @@
 
 @section('content')
 <div class="container-fluid">
-    {{-- Pilihan Kategori di bawah Navbar --}}
+    {{-- Search Form (BARU) --}}
+    <div class="row mb-4">
+        <div class="col-12">
+            <form action="{{ route('artikel.index') }}" method="GET">
+                <div class="input-group">
+                    <input type="text" name="q" class="form-control form-control-lg" placeholder="Cari artikel berdasarkan judul..." value="{{ request('q') }}">
+                    {{-- Pertahankan filter kategori jika ada --}}
+                    @if (request('kategori'))
+                        <input type="hidden" name="kategori" value="{{ request('kategori') }}">
+                    @endif
+                    <button class="btn main-bg text-white btn-lg" type="submit">
+                        <i class="fas fa-search"></i> Cari
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    {{-- Pilihan Kategori di bawah Search --}}
     @php
         // Ambil kategori aktif dari controller (variabel 'kategori'). Jika null, anggap 'Semua Artikel'.
         $activeKategori = $kategori ?? 'Semua Artikel';
@@ -18,10 +35,7 @@
             <ul class="nav nav-pills nav-fill category-nav">
                 @foreach ($categories as $cat)
                     @php
-                        $url = route('artikel.index');
-                        if ($cat !== 'Semua Artikel') {
-                            $url = route('artikel.index', ['kategori' => $cat]);
-                        }
+                        $url = route('artikel.index', array_filter(['kategori' => $cat !== 'Semua Artikel' ? $cat : null, 'q' => request('q')])); // <-- Memastikan q dibawa
                         $isActive = ($activeKategori === $cat);
                     @endphp
                     <li class="nav-item me-3"> {{-- Tambahkan wrapper li.nav-item --}}

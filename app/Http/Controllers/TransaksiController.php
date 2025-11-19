@@ -17,7 +17,14 @@ class TransaksiController extends Controller
     public function index(Request $request)
     {
         $kategoris = Kategori::orderBy('nama_kategori')->get();
+        $searchQuery = $request->get('q'); // <-- BARU
+
         $query = Produk::where('stok', '>', 0)->orderBy('nama_produk');
+
+        // Filter berdasarkan nama produk (Pencarian) <-- BARU
+        if ($searchQuery) {
+            $query->where('nama_produk', 'like', '%'.$searchQuery.'%');
+        }
 
         $selectedKategori = $request->get('kategori');
 
