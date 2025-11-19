@@ -5,6 +5,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 // Halaman Utama / Artikel Index
@@ -31,6 +32,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('transaksi/hapus-keranjang/{id_produk}', [TransaksiController::class, 'removeFromCart'])->name('transaksi.removeFromCart'); // <-- GANTI PARAMETER
     // Proses checkout
     Route::post('transaksi/checkout', [TransaksiController::class, 'checkout'])->name('transaksi.checkout');
+    // Lihat Profil Pengguna
+    Route::get('profil', [UserController::class, 'index'])->name('profile.index'); // Gunakan 'profile.index' untuk Lihat Profil
+    // Edit Profil (Form)
+    Route::get('profil/edit', [UserController::class, 'edit'])->name('profile.edit');
+    // Update Profil (Submit Form)
+    Route::post('profil/update', [UserController::class, 'update'])->name('profile.update');
+    // Riwayat Pembelian
+    Route::get('profil/riwayat', [UserController::class, 'riwayatPembelian'])->name('profile.history');
 
     // Rute Khusus Admin - menggunakan controller logic untuk otorisasi
     Route::group([], function () {

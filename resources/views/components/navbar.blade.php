@@ -60,9 +60,10 @@
                             <i class="fas fa-user-circle me-1"></i> Halo, {{ \Illuminate\Support\Str::limit(Auth::user()->name, 10, '..') }}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#profil"><i class="fas fa-id-card me-2"></i> Lihat Profil</a></li>
-                            <li><a class="dropdown-item" href="#edit"><i class="fas fa-user-edit me-2"></i> Edit Profil</a></li>
-                            <li></li><a class="dropdown-item" href="#riwayat"><i class="fas fa-history me-2"></i> Riwayat</a></li>
+                            <li><a class="dropdown-item" href="{{ route('profile.index') }}"><i class="fas fa-id-card me-2"></i> Lihat Profil</a></li>
+                            <li><a class="dropdown-item" href="{{ route('profile.edit') }}"><i class="fas fa-user-edit me-2"></i> Edit Profil</a></li>
+                            {{-- UBAH INI --}}
+                            <li><a class="dropdown-item" href="{{ route('profile.history') }}"><i class="fas fa-history me-2"></i> Riwayat Pembelian</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <form action="{{ route('logout') }}" method="POST" class="m-0">
