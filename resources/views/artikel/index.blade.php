@@ -59,7 +59,7 @@
             <a href="{{ route('artikel.detail', ['id' => $article->id_artikel, 'slug' => Illuminate\Support\Str::slug($article->judul)]) }}" class="text-decoration-none">
                 <div class="card shadow-sm h-100 card">
                     {{-- Gambar: Menggunakan path_foto dari database. Jika null, gunakan placeholder. --}}
-                    <img src="{{ $article->path_foto ?? 'https://via.placeholder.com/400x250?text=Apotek+Artikel' }}" class="card-img-top" alt="{{ $article->judul }}" style="height: 180px; object-fit: cover;">
+                    <img src="{{ $article->path_foto ? asset('storage/' . $article->path_foto) : 'https://via.placeholder.com/400x250?text=Apotek+Artikel' }}" class="card-img-top" alt="{{ $article->judul }}" style="height: 180px; object-fit: cover;">
                     <div class="card-body">
                         {{-- Badge Kategori --}}
                         <span class="badge bg-opacity-75 mb-2 fw-bold" style="background-color: #1abc9c;">
@@ -84,7 +84,7 @@
             {{-- Tampilkan pesan jika tidak ada artikel di database --}}
             <div class="col-12 text-center my-5">
                 <p class="fs-4 text-muted">Tidak ada artikel yang ditemukan saat ini.</p>
-                <p class="text-secondary">Pastikan Anda sudah menjalankan seeder atau menambahkan data ke tabel `artikels`.</p>
+
             </div>
         @endforelse
     </div>

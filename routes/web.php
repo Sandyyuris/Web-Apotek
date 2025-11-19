@@ -35,6 +35,8 @@ Route::middleware(['auth'])->group(function () {
     // Rute Khusus Admin - menggunakan controller logic untuk otorisasi
     Route::group([], function () {
         Route::get('admin/artikel/create', [AdminController::class, 'createArtikel'])->name('admin.artikel.create');
+        // V FIX: Tambahkan rute POST untuk memproses form
+        Route::post('admin/artikel', [AdminController::class, 'storeArtikel'])->name('admin.artikel.store'); // <-- BARU
         Route::get('admin/produk/create', [AdminController::class, 'createProduk'])->name('admin.produk.create');
     });
 });

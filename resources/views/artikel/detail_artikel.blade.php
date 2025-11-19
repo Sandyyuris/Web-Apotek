@@ -27,8 +27,7 @@
 
                 {{-- Gambar Utama --}}
                 {{-- MENAMPILKAN GAMBAR ASLI ATAU PLACEHOLDER --}}
-                <img src="{{ $article->path_foto ?? 'https://via.placeholder.com/800x450?text=Gambar+Utama+Artikel' }}" class="img-fluid rounded mb-4 shadow-sm" alt="{{ $article->judul }}">
-
+                <img src="{{ $article->path_foto ? asset('storage/' . $article->path_foto) : 'https://via.placeholder.com/800x450?text=Gambar+Utama+Artikel' }}" class="img-fluid rounded mb-4 shadow-sm" alt="{{ $article->judul }}">
                 {{-- Isi Artikel (Lorem Ipsum) --}}
                 <div class="article-content">
                     {{-- MENAMPILKAN ISI ARTIKEL ASLI --}}
