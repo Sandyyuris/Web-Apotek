@@ -23,7 +23,11 @@
             background-color: #1abc9c !important;
             border-color: #1abc9c !important;
         }
-        .card-hover:hover {
+        .card {
+            border-radius: 10px;
+            transition: all 0.3s ease-in-out;
+        }
+        .card:hover {
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15) !important;
             transform: translateY(-5px);
             transition: all 0.3s ease-in-out;
@@ -78,17 +82,13 @@
             border-bottom: 3px solid transparent;
             transition: border-bottom 0.3s;
             background-color: white !important;
-            margin-right: 15px;
-            margin-left: 15px;
-            border-radius: 20px;
-
+            border-radius: 15px;
 
         }
         .category-nav .nav-link:hover, .category-nav .nav-link.active {
             color: #1abc9c;
             border-bottom: 3px solid #1abc9c;
             border-right: 3px solid #1abc9c;
-            /* background-color: transparent !important; */
         }
     </style>
 </head>

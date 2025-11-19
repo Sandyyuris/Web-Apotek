@@ -15,7 +15,8 @@
 
     <div class="row mb-4">
         <div class="col-12">
-            <nav class="nav nav-pills nav-fill category-nav">
+            {{-- MENGUBAH NAV MENJADI UL DAN MENAMBAH LI UNTUK KOMPATIBILITAS NAV-FILL YANG LEBIH BAIK --}}
+            <ul class="nav nav-pills nav-fill category-nav">
                 @foreach ($categories as $cat)
                     @php
                         $url = route('artikel.index');
@@ -24,13 +25,15 @@
                         }
                         $isActive = ($activeKategori === $cat);
                     @endphp
-                    <a class="nav-link {{ $isActive ? 'active' : '' }}"
-                        aria-current="{{ $isActive ? 'page' : '' }}"
-                        href="{{ $url }}">
-                        {{ $cat }}
-                    </a>
+                    <li class="nav-item me-3"> {{-- Tambahkan wrapper li.nav-item --}}
+                        <a class="nav-link {{ $isActive ? 'active' : '' }}"
+                            aria-current="{{ $isActive ? 'page' : '' }}"
+                            href="{{ $url }}">
+                            {{ $cat }}
+                        </a>
+                    </li>
                 @endforeach
-            </nav>
+            </ul>
         </div>
     </div>
 
@@ -41,7 +44,7 @@
         <div class="col-md-4 mb-4">
             {{-- Menggunakan Str::slug dari Illuminate\Support\Str untuk URL yang bersih --}}
             <a href="{{ route('artikel.detail', ['id' => $article->id_artikel, 'slug' => Illuminate\Support\Str::slug($article->judul)]) }}" class="text-decoration-none">
-                <div class="card shadow-sm h-100 card-hover">
+                <div class="card shadow-sm h-100 card">
                     {{-- Gambar: Menggunakan path_foto dari database. Jika null, gunakan placeholder. --}}
                     <img src="{{ $article->path_foto ?? 'https://via.placeholder.com/400x250?text=Apotek+Artikel' }}" class="card-img-top" alt="{{ $article->judul }}" style="height: 180px; object-fit: cover;">
                     <div class="card-body">
