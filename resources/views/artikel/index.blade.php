@@ -23,26 +23,30 @@
     </div>
     {{-- Pilihan Kategori di bawah Search --}}
     @php
-        // Ambil kategori aktif dari controller (variabel 'kategori'). Jika null, anggap 'Semua Artikel'.
-        $activeKategori = $kategori ?? 'Semua Artikel';
+        // $selectedKategoriName adalah nama kategori aktif dari Controller. Jika null, anggap 'Semua Artikel'.
+        $activeKategoriName = $selectedKategoriName ?? 'Semua Artikel'; // <-- PERUBAHAN
 
-        // Definisikan kategori yang tersedia (sesuai data seeder: 'Obat', 'Tips Hidup Sehat')
-        $categories = ['Semua Artikel', 'Obat', 'Tips Hidup Sehat'];
+        // Gabungkan "Semua Artikel" dengan koleksi kategori dari DB
+        $allCategories = collect([
+            (object) ['nama_kategori' => 'Semua Artikel', 'slug' => 'Semua Artikel']
+        ])->merge($kategoris); // $kategoris adalah KategoriArtikel::all() dari Controller
     @endphp
 
     <div class="row mb-4">
         <div class="col-12">
             <ul class="nav nav-pills nav-fill category-nav">
-                @foreach ($categories as $cat)
+                @foreach ($allCategories as $cat)
                     @php
-                        $url = route('artikel.index', array_filter(['kategori' => $cat !== 'Semua Artikel' ? $cat : null, 'q' => request('q')])); // <-- Memastikan q dibawa
-                        $isActive = ($activeKategori === $cat);
+                        // Gunakan slug untuk URL
+                        $categorySlug = $cat->slug !== 'Semua Artikel' ? $cat->slug : null;
+                        $url = route('artikel.index', array_filter(['kategori' => $categorySlug, 'q' => request('q')]));
+                        $isActive = ($activeKategoriName === $cat->nama_kategori); // Cek berdasarkan nama
                     @endphp
-                    <li class="nav-item me-3"> {{-- Tambahkan wrapper li.nav-item --}}
+                    <li class="nav-item me-3">
                         <a class="nav-link {{ $isActive ? 'active' : '' }}"
                             aria-current="{{ $isActive ? 'page' : '' }}"
                             href="{{ $url }}">
-                            {{ $cat }}
+                            {{ $cat->nama_kategori }}
                         </a>
                     </li>
                 @endforeach
@@ -63,7 +67,7 @@
                     <div class="card-body">
                         {{-- Badge Kategori --}}
                         <span class="badge bg-opacity-75 mb-2 fw-bold" style="background-color: #1abc9c;">
-                            {{ $article->kategori }}
+                            {{ $article->kategoriArtikel->nama_kategori}} {{-- <-- PERUBAHAN --}}
                         </span>
                         {{-- Judul Artikel --}}
                         <h5 class="card-title fw-bold text-dark">{{ $article->judul }}</h5>

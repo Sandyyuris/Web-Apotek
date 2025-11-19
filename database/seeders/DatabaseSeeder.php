@@ -18,8 +18,10 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
         $this->call([
             RoleSeeder::class,
+            KategoriSeeder::class, // Kategori untuk Produk
+            SatuanSeeder::class,   // <-- BARU
+            KategoriArtikelSeeder::class, // <-- BARU
             ArtikelSeeder::class,
-            KategoriSeeder::class,
             ProdukSeeder::class,
         ]);
 

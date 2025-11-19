@@ -10,9 +10,10 @@ return new class extends Migration
     {
         Schema::create('produks', function (Blueprint $table) {
             $table->id('id_produk');
-            $table->unsignedBigInteger('id_kategori'); // Foreign Key ke Kategori
+            $table->unsignedBigInteger('id_kategori');
+            $table->unsignedBigInteger('id_satuan');
             $table->string('nama_produk')->unique();
-            $table->string('satuan')->comment('Contoh: Pcs, Botol, Kotak');
+            // $table->string('satuan')->comment('Contoh: Pcs, Botol, Kotak');
             $table->integer('stok')->default(0);
             $table->integer('harga_jual');
             $table->text('deskripsi')->nullable();
@@ -22,6 +23,12 @@ return new class extends Migration
             $table->foreign('id_kategori')
                 ->references('id_kategori')
                 ->on('kategoris')
+                ->onDelete('restrict');
+                
+                // Foreign Key BARU
+            $table->foreign('id_satuan')
+                ->references('id_satuan')
+                ->on('satuans')
                 ->onDelete('restrict');
         });
     }

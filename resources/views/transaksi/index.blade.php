@@ -75,14 +75,15 @@
             @endif
 
             {{-- Daftar Produk dalam Card Grid --}}
+            {{-- Daftar Produk dalam Card Grid --}}
             <div class="row">
                 @forelse ($produks as $produk)
                 <div class="col-md-3 mb-4">
                     <div class="card shadow-sm h-100 p-3 card-hover">
                         <div class="card-body">
                             {{-- Tampilkan Kategori --}}
-                            <span class="badge bg-secondary mb-2">{{ $produk->kategori->nama_kategori ?? 'Tanpa Kategori' }}</span>
-                            <span class="badge bg-opacity-75 mb-2 fw-bold main-bg">{{ $produk->satuan }}</span>
+                            <span class="badge bg-secondary mb-2">{{ $produk->kategori->nama_kategori }}</span>
+                            <span class="badge bg-opacity-75 mb-2 fw-bold main-bg">{{ $produk->satuan->nama_satuan }}</span> {{-- <-- PERUBAHAN --}}
 
                             <h5 class="card-title fw-bold">{{ $produk->nama_produk }}</h5>
                             <p class="card-text text-muted">

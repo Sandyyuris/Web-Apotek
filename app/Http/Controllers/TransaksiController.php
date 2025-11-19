@@ -17,9 +17,10 @@ class TransaksiController extends Controller
     public function index(Request $request)
     {
         $kategoris = Kategori::orderBy('nama_kategori')->get();
-        $searchQuery = $request->get('q'); // <-- BARU
+        $searchQuery = $request->get('q');
 
-        $query = Produk::where('stok', '>', 0)->orderBy('nama_produk');
+        // Eager load relasi kategori dan SATUAN untuk menghindari N+1 query dan mengambil nama satuan
+        $query = Produk::with(['kategori', 'satuan'])->where('stok', '>', 0)->orderBy('nama_produk'); // <-- PERUBAHAN
 
         // Filter berdasarkan nama produk (Pencarian) <-- BARU
         if ($searchQuery) {
@@ -53,7 +54,7 @@ class TransaksiController extends Controller
             'quantity' => 'required|integer|min:1',
         ]);
 
-        $produk = Produk::findOrFail($request->id_produk); // <-- GANTI DARI Obat
+        $produk = Produk::with('satuan')->findOrFail($request->id_produk); // <-- PERUBAHAN
         $quantity = $request->quantity;
         $cart = session()->get('cart', []);
 
@@ -72,13 +73,13 @@ class TransaksiController extends Controller
             $quantity = $newQuantity;
         }
 
-        $subtotal = $produk->harga_jual * $quantity;
+$subtotal = $produk->harga_jual * $quantity;
 
         $cart[$produk->id_produk] = [
             'id_produk' => $produk->id_produk,
-            'nama_produk' => $produk->nama_produk, // <-- GANTI DARI nama_obat
+            'nama_produk' => $produk->nama_produk,
             'harga_jual' => $produk->harga_jual,
-            'satuan' => $produk->satuan,
+            'satuan' => $produk->satuan->nama_satuan ?? 'Pcs', // <-- PERUBAHAN: Mengambil nama_satuan dari relasi
             'quantity' => $quantity,
             'subtotal' => $subtotal,
         ];

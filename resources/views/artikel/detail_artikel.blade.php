@@ -19,8 +19,8 @@
                 {{-- Info Penulis/Kategori --}}
                 <div class="text-muted mb-4">
                     <span class="me-3"><i class="fas fa-user-edit me-1"></i> Oleh: Penulis Apotek</span>
-                    {{-- MENAMPILKAN KATEGORI ASLI --}}
-                    <span class="me-3"><i class="fas fa-tag me-1"></i> Kategori: {{ $article->kategori }}</span>
+                    {{-- MENAMPILkan KATEGORI ASLI --}}
+                    <span class="me-3"><i class="fas fa-tag me-1"></i> Kategori: {{ $article->kategoriArtikel->nama_kategori }}</span> {{-- <-- PERUBAHAN --}}
                     {{-- MENAMPILKAN TANGGAL DARI CREATED_AT --}}
                     <span><i class="fas fa-calendar-alt me-1"></i> Tanggal: {{ \Carbon\Carbon::parse($article->created_at)->translatedFormat('d F Y') }}</span>
                 </div>

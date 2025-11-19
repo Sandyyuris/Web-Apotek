@@ -37,20 +37,17 @@
 
                         {{-- Dropdown Kategori --}}
                         <div class="mb-3">
-                            <label for="kategori" class="form-label fw-bold">Kategori</label>
+                            <label for="id_kategori_artikel" class="form-label fw-bold">Kategori</label> {{-- <-- PERUBAHAN label --}}
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fas fa-tags"></i></span>
-                                <select id="kategori" class="form-select @error('kategori') is-invalid @enderror" name="kategori" required>
+                                <select id="id_kategori_artikel" class="form-select @error('id_kategori_artikel') is-invalid @enderror" name="id_kategori_artikel" required> {{-- <-- PERUBAHAN name dan id --}}
                                     <option value="" disabled selected>Pilih Kategori</option>
-                                    {{-- Menggunakan kategori yang terdaftar di ArtikelSeeder/Index --}}
-                                    @php
-                                        $kategoris = ['Obat', 'Tips Hidup Sehat'];
-                                    @endphp
+                                    {{-- Menggunakan koleksi $kategoris (KategoriArtikel) dari controller --}}
                                     @foreach ($kategoris as $kategori)
-                                        <option value="{{ $kategori }}" {{ old('kategori') == $kategori ? 'selected' : '' }}>{{ $kategori }}</option>
+                                        <option value="{{ $kategori->id_kategori_artikel }}" {{ old('id_kategori_artikel') == $kategori->id_kategori_artikel ? 'selected' : '' }}>{{ $kategori->nama_kategori }}</option>
                                     @endforeach
                                 </select>
-                                @error('kategori')
+                                @error('id_kategori_artikel') {{-- <-- PERUBAHAN error name --}}
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
