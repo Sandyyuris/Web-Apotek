@@ -5,19 +5,38 @@
 @section('content')
 <div class="container-fluid mt-4">
     <div class="row">
-        {{-- Kolom Daftar Produk & Filter Kategori (8 kolom) --}}
-        <div class="col-lg-8">
-            <h2 class="fw-bold mb-4 main-color">Daftar Produk Tersedia</h2>
-
-            {{-- Filter Kategori --}}
-            <div class="mb-4">
-                <a href="{{ route('transaksi.index') }}" class="btn {{ $selectedKategori === null ? 'main-bg text-white' : 'btn-outline-secondary' }} btn-sm me-2">Semua</a>
-                @foreach ($kategoris as $kategori)
-                    <a href="{{ route('transaksi.index', ['kategori' => $kategori->slug]) }}"
-                        class="btn {{ $selectedKategori === $kategori->slug ? 'main-bg text-white' : 'btn-outline-secondary' }} btn-sm me-2">
-                        {{ $kategori->nama_kategori }}
-                    </a>
-                @endforeach
+        {{-- Kolom Daftar Produk & Filter Kategori (10 kolom - Diperluas) --}}
+        <div class="col-lg-9">
+            {{-- Filter Kategori (Diubah agar mirip artikel) --}}
+            <div class="row mb-4">
+                <div class="col-12">
+                    <ul class="nav nav-pills nav-fill category-nav">
+                        {{-- Opsi "Semua Produk" --}}
+                        @php
+                            $isActive = $selectedKategori === null;
+                        @endphp
+                        <li class="nav-item me-3">
+                            <a class="nav-link {{ $isActive ? 'active' : '' }}"
+                                aria-current="{{ $isActive ? 'page' : '' }}"
+                                href="{{ route('transaksi.index') }}">
+                                Semua Produk
+                            </a>
+                        </li>
+                        {{-- Loop Kategori dari Database --}}
+                        @foreach ($kategoris as $kategori)
+                            @php
+                                $isActive = $selectedKategori === $kategori->slug;
+                            @endphp
+                            <li class="nav-item me-3">
+                                <a class="nav-link {{ $isActive ? 'active' : '' }}"
+                                    aria-current="{{ $isActive ? 'page' : '' }}"
+                                    href="{{ route('transaksi.index', ['kategori' => $kategori->slug]) }}">
+                                    {{ $kategori->nama_kategori }}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
             </div>
 
             {{-- Pesan Status (Success/Error) --}}
@@ -86,8 +105,8 @@
             </div>
         </div>
 
-        {{-- Kolom Keranjang Belanja (4 kolom) --}}
-        <div class="col-lg-2">
+        {{-- Kolom Keranjang Belanja (2 kolom - Tetap di Kanan) --}}
+        <div class="col-lg-3">
             <div class="card shadow sticky-top" style="top: 20px;">
                 <div class="card-header main-bg text-white fw-bold">
                     <i class="fas fa-shopping-cart me-2"></i> Keranjang Belanja ({{ count($cart) }})

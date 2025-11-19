@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark main-bg shadow-lg sticky-top py-3">
+<nav class="navbar navbar-expand-lg navbar-dark main-bg shadow-lg sticky-top py-3" style="z-index: 1030;">
     <div class="container-fluid">
         {{-- Brand/Logo --}}
         <a class="navbar-brand fw-bold" href="{{ route('artikel.index') }}">
