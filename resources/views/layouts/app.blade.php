@@ -90,6 +90,19 @@
             border-bottom: 3px solid #1abc9c;
             border-right: 3px solid #1abc9c;
         }
+
+        .floating-action-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            width: 56px; /* Ukuran standar FAB */
+            height: 56px; /* Ukuran standar FAB */
+            line-height: 48px; /* Pusatkan ikon */
+            padding: 0 !important;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(26, 188, 156, 0.5);
+        }
     </style>
 </head>
 <body class="app-bg">

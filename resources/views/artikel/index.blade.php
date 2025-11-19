@@ -95,4 +95,14 @@
         {{ $articles->appends(request()->query())->links('pagination::bootstrap-5') }}
     </div>
 </div>
+@auth
+    {{-- Cek apakah user adalah Admin (id_role = 1) untuk menampilkan tombol --}}
+    @if (Auth::user()->id_role === 1)
+        <a href="{{ route('admin.artikel.create') }}"
+           class="btn main-bg text-white rounded-circle floating-action-button"
+           data-bs-toggle="tooltip" data-bs-placement="left" title="Tambah Artikel Baru">
+            <i class="fas fa-plus"></i>
+        </a>
+    @endif
+@endauth
 @endsection

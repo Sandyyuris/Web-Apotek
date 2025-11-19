@@ -172,4 +172,15 @@
         </div>
     </div>
 </div>
+{{-- BARU: Floating Action Button untuk Admin (Role 1) --}}
+@auth
+    {{-- Cek apakah user adalah Admin (id_role = 1) untuk menampilkan tombol --}}
+    @if (Auth::user()->id_role === 1)
+        <a href="{{ route('admin.produk.create') }}"
+           class="btn main-bg text-white rounded-circle floating-action-button"
+           data-bs-toggle="tooltip" data-bs-placement="left" title="Tambah Produk Baru">
+            <i class="fas fa-plus"></i>
+        </a>
+    @endif
+@endauth
 @endsection

@@ -7,16 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Artikel extends Model
 {
-    /** @use HasFactory<\Database\Factories\ArtikelFactory> */
     use HasFactory;
 
     protected $primaryKey = 'id_artikel';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'kategori',
         'judul',
@@ -24,11 +18,6 @@ class Artikel extends Model
         'path_foto',
     ];
 
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
     protected $table = 'artikels';
 }
 
