@@ -3,7 +3,7 @@
 @section('title', 'Toko / Transaksi Produk')
 
 @section('content')
-<div class="container mt-4">
+<div class="container-fluid mt-4">
     <div class="row">
         {{-- Kolom Daftar Produk & Filter Kategori (8 kolom) --}}
         <div class="col-lg-8">
@@ -38,7 +38,7 @@
             {{-- Daftar Produk dalam Card Grid --}}
             <div class="row">
                 @forelse ($produks as $produk)
-                <div class="col-md-6 mb-4">
+                <div class="col-md-3 mb-4">
                     <div class="card shadow-sm h-100 p-3 card-hover">
                         <div class="card-body">
                             {{-- Tampilkan Kategori --}}
@@ -87,7 +87,7 @@
         </div>
 
         {{-- Kolom Keranjang Belanja (4 kolom) --}}
-        <div class="col-lg-4">
+        <div class="col-lg-2">
             <div class="card shadow sticky-top" style="top: 20px;">
                 <div class="card-header main-bg text-white fw-bold">
                     <i class="fas fa-shopping-cart me-2"></i> Keranjang Belanja ({{ count($cart) }})

@@ -3,7 +3,7 @@
 @section('title', 'Daftar Artikel')
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     {{-- Pilihan Kategori di bawah Navbar --}}
     @php
         // Ambil kategori aktif dari controller (variabel 'kategori'). Jika null, anggap 'Semua Artikel'.
@@ -15,7 +15,6 @@
 
     <div class="row mb-4">
         <div class="col-12">
-            {{-- MENGUBAH NAV MENJADI UL DAN MENAMBAH LI UNTUK KOMPATIBILITAS NAV-FILL YANG LEBIH BAIK --}}
             <ul class="nav nav-pills nav-fill category-nav">
                 @foreach ($categories as $cat)
                     @php
@@ -41,7 +40,7 @@
     <div class="row">
         {{-- Perulangan kini menggunakan data dari database yang dikirim oleh Controller --}}
         @forelse ($articles as $article)
-        <div class="col-md-4 mb-4">
+        <div class="col-md-3 mb-4">
             {{-- Menggunakan Str::slug dari Illuminate\Support\Str untuk URL yang bersih --}}
             <a href="{{ route('artikel.detail', ['id' => $article->id_artikel, 'slug' => Illuminate\Support\Str::slug($article->judul)]) }}" class="text-decoration-none">
                 <div class="card shadow-sm h-100 card">
