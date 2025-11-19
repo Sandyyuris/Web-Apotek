@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark main-bg shadow-lg sticky-top py-3">
-    <div class="container">
+    <div class="container-fluid">
         {{-- Brand/Logo --}}
         <a class="navbar-brand fw-bold" href="{{ route('artikel.index') }}">
             <i class="fas fa-pills me-2"></i>

@@ -34,11 +34,12 @@
 
         /* === Penyesuaian Navbar Baru === */
         .navbar-brand {
-            color: white !important; /* Warna brand (teks) harus putih di dark bg */
+            color: white !important;
             margin-right: 1.5rem !important;
+            margin-left: 1.5rem !important;
         }
         .navbar-brand .fa-pills {
-            color: white; /* Ikon juga putih */
+            color: white;
         }
         .navbar-nav .nav-link {
             color: rgba(255, 255, 255, 0.85); /* Warna teks link default (putih agak pudar) */
@@ -47,7 +48,7 @@
             padding-right: 1.5rem !important;
         }
         .navbar-nav .nav-link:hover {
-            color: white; /* Hover menjadi putih solid */
+            color: white;
             font-weight: bold;
         }
 
@@ -67,17 +68,27 @@
             background-color: #2c3e50; /* Warna gelap untuk footer */
             color: white;
         }
+        .category-nav {
+            background-color: transparent;
+
+        }
         .category-nav .nav-link {
-            color: #2c3e50; /* Warna teks kategori default */
+            color: #2c3e50;
             font-weight: bold;
             border-bottom: 3px solid transparent;
             transition: border-bottom 0.3s;
+            background-color: white !important;
+            margin-right: 15px;
+            margin-left: 15px;
+            border-radius: 20px;
+
+
         }
         .category-nav .nav-link:hover, .category-nav .nav-link.active {
             color: #1abc9c;
             border-bottom: 3px solid #1abc9c;
             border-right: 3px solid #1abc9c;
-            background-color: transparent !important;
+            /* background-color: transparent !important; */
         }
     </style>
 </head>

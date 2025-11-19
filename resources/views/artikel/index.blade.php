@@ -15,7 +15,7 @@
 
     <div class="row mb-4">
         <div class="col-12">
-            <nav class="nav nav-pills nav-fill category-nav bg-white shadow-sm p-2 rounded">
+            <nav class="nav nav-pills nav-fill category-nav">
                 @foreach ($categories as $cat)
                     @php
                         $url = route('artikel.index');
