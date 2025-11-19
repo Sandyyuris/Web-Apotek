@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Artikel;
 use App\Models\KategoriArtikel;
+use App\Models\Produk; // <-- BARU
+use App\Models\Kategori; // <-- BARU
+use App\Models\Satuan; // <-- BARU
+use Illuminate\Validation\Rule;
 
 
 class AdminController extends Controller
@@ -62,7 +66,41 @@ class AdminController extends Controller
 
     public function createProduk()
     {
-        // Menampilkan form tambah produk (placeholder)
-        return view('transaksi.create');
+        $kategoris = Kategori::orderBy('nama_kategori')->get();
+        $satuans = Satuan::orderBy('nama_satuan')->get();
+        // Menggunakan view yang diperbarui dan passing data
+        return view('transaksi.create', compact('kategoris', 'satuans')); // <-- PERUBAHAN
+    }
+    /**
+     * Menyimpan produk baru ke database.
+     */
+    public function storeProduk(Request $request) // <-- BARU
+    {
+        // 1. Lakukan Validasi
+        $request->validate([
+            // Nama produk harus unik di tabel 'produks'
+            'nama_produk' => ['required', 'string', 'max:255', Rule::unique('produks', 'nama_produk')],
+            'id_kategori' => 'required|exists:kategoris,id_kategori',
+            'id_satuan' => 'required|exists:satuans,id_satuan',
+            'stok' => 'required|integer|min:0',
+            'harga_jual' => 'required|integer|min:0',
+            'deskripsi' => 'nullable|string|max:1000',
+        ], [
+            'nama_produk.unique' => 'Nama produk ini sudah ada di database.',
+            'stok.min' => 'Stok tidak boleh kurang dari 0.',
+            'harga_jual.min' => 'Harga jual tidak boleh kurang dari 0.',
+        ]);
+
+        // 2. Simpan Data ke Database
+        $produk = Produk::create([
+            'id_kategori' => $request->id_kategori,
+            'id_satuan' => $request->id_satuan,
+            'nama_produk' => $request->nama_produk,
+            'stok' => $request->stok,
+            'harga_jual' => $request->harga_jual,
+            'deskripsi' => $request->deskripsi,
+        ]);
+
+        return redirect()->route('transaksi.index')->with('success', 'Produk ' . $produk->nama_produk . ' berhasil ditambahkan!');
     }
 }

@@ -38,5 +38,6 @@ Route::middleware(['auth'])->group(function () {
         // V FIX: Tambahkan rute POST untuk memproses form
         Route::post('admin/artikel', [AdminController::class, 'storeArtikel'])->name('admin.artikel.store'); // <-- BARU
         Route::get('admin/produk/create', [AdminController::class, 'createProduk'])->name('admin.produk.create');
+        Route::post('admin/produk', [AdminController::class, 'storeProduk'])->name('admin.produk.store'); // <-- BARU
     });
 });
