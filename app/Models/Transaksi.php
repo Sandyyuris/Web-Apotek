@@ -17,6 +17,10 @@ class Transaksi extends Model
         'id_users',
         'kode_transaksi',
         'total_harga',
+        'biaya_pengiriman', // <-- TAMBAH
+        'tipe_pengiriman', // <-- TAMBAH
+        'alamat_pengiriman', // <-- TAMBAH
+        'metode_pembayaran', // <-- TAMBAH
         'status_pembayaran',
     ];
 

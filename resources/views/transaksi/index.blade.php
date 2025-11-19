@@ -156,12 +156,10 @@
                             <span class="main-color">Rp {{ number_format($grandTotal, 0, ',', '.') }}</span>
                         </div>
 
-                        <form action="{{ route('transaksi.checkout') }}" method="POST" class="mt-3">
-                            @csrf
-                            <button type="submit" class="btn main-bg text-white w-100 btn-lg fw-bold" onclick="return confirm('Apakah Anda yakin ingin memproses transaksi ini? Total: Rp {{ number_format($grandTotal, 0, ',', '.') }}')">
-                                <i class="fas fa-cash-register me-2"></i> BAYAR SEKARANG
-                            </button>
-                        </form>
+                        {{-- GANTI DARI FORM SUBMIT JADI LINK KE FORM CHECKOUT --}}
+                        <a href="{{ route('transaksi.checkout.form') }}" class="btn main-bg text-white w-100 btn-lg fw-bold mt-3">
+                            <i class="fas fa-cash-register me-2"></i> LANJUT KE PEMBAYARAN
+                        </a>
                     @else
                         <div class="text-center py-4">
                             <i class="fas fa-box-open fa-3x text-muted mb-3"></i>

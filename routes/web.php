@@ -40,6 +40,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('profil/update', [UserController::class, 'update'])->name('profile.update');
     // Riwayat Pembelian
     Route::get('profil/riwayat', [UserController::class, 'riwayatPembelian'])->name('profile.history');
+    // Form Checkout
+    Route::get('transaksi/checkout/form', [TransaksiController::class, 'showCheckoutForm'])->name('transaksi.checkout.form'); // <-- BARU
+    // Proses checkout
+    Route::post('transaksi/checkout', [TransaksiController::class, 'checkout'])->name('transaksi.checkout');
 
     // Rute Khusus Admin - menggunakan controller logic untuk otorisasi
     Route::group([], function () {

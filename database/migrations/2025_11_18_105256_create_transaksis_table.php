@@ -15,7 +15,11 @@ return new class extends Migration
 
             $table->string('kode_transaksi')->unique();
             $table->integer('total_harga');
-            $table->string('status_pembayaran')->default('Lunas');
+            $table->integer('biaya_pengiriman')->default(0); // <-- BARU
+            $table->string('tipe_pengiriman')->default('Diambil di Apotek'); // <-- BARU
+            $table->text('alamat_pengiriman')->nullable(); // <-- BARU
+            $table->string('metode_pembayaran')->default('Cash'); // <-- BARU
+            $table->string('status_pembayaran')->default('Pending'); // Ubah default menjadi Pending
 
             $table->timestamps();
 
