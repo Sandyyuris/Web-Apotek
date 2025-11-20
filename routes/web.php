@@ -52,5 +52,6 @@ Route::middleware(['auth'])->group(function () {
         Route::post('admin/artikel', [AdminController::class, 'storeArtikel'])->name('admin.artikel.store'); // <-- BARU
         Route::get('admin/produk/create', [AdminController::class, 'createProduk'])->name('admin.produk.create');
         Route::post('admin/produk', [AdminController::class, 'storeProduk'])->name('admin.produk.store'); // <-- BARU
+        Route::get('admin/pemasukan-harian', [AdminController::class, 'pemasukanHarian'])->name('admin.pemasukan.harian');
     });
 });

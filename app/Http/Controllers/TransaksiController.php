@@ -73,7 +73,7 @@ class TransaksiController extends Controller
             $quantity = $newQuantity;
         }
 
-$subtotal = $produk->harga_jual * $quantity;
+        $subtotal = $produk->harga_jual * $quantity;
 
         $cart[$produk->id_produk] = [
             'id_produk' => $produk->id_produk,
@@ -172,7 +172,8 @@ $subtotal = $produk->harga_jual * $quantity;
                 'tipe_pengiriman' => $request->tipe_pengiriman, // <-- BARU
                 'alamat_pengiriman' => $request->alamat_pengiriman, // <-- BARU
                 'metode_pembayaran' => $request->metode_pembayaran, // <-- BARU
-                'status_pembayaran' => 'Pending', // Ubah status awal menjadi Pending
+                'status_pembayaran' => 'Pending',
+                 // Ubah status awal menjadi Pending
             ]);
 
             // 4. Simpan Detail Transaksi & Kurangi Stok

@@ -10,6 +10,9 @@ use App\Models\KategoriArtikel;
 use App\Models\Produk; // <-- BARU
 use App\Models\Kategori; // <-- BARU
 use App\Models\Satuan; // <-- BARU
+use App\Models\Transaksi;
+use App\Models\DetailTransaksi;
+use Carbon\Carbon;
 use Illuminate\Validation\Rule;
 
 
@@ -102,5 +105,31 @@ class AdminController extends Controller
         ]);
 
         return redirect()->route('transaksi.index')->with('success', 'Produk ' . $produk->nama_produk . ' berhasil ditambahkan!');
+    }
+
+    public function pemasukanHarian(Request $request)
+    {
+        // Mendapatkan tanggal hari ini (sebagai string YYYY-MM-DD)
+        $today = Carbon::now()->toDateString(); //
+
+        // Mengambil semua detail transaksi hari ini, mengelompokkan per produk,
+        // dan menghitung total kuantitas dan total pemasukan per produk.
+        $rekapitulasiPenjualan = DetailTransaksi::selectRaw('
+                produks.nama_produk,
+                detail_transaksis.harga_saat_transaksi AS harga_satuan,
+                SUM(detail_transaksis.jumlah) AS total_kuantitas_terjual,
+                SUM(detail_transaksis.subtotal) AS total_pemasukan_produk
+            ')
+            ->join('transaksis', 'detail_transaksis.id_transaksi', '=', 'transaksis.id_transaksi') // Gabung ke Transaksi untuk filter tanggal
+            ->join('produks', 'detail_transaksis.id_produk', '=', 'produks.id_produk') // Gabung ke Produk untuk nama produk
+            ->whereDate('transaksis.created_at', $today) // Filter hanya untuk hari ini
+            ->groupBy('produks.nama_produk', 'detail_transaksis.harga_saat_transaksi')
+            ->orderByDesc('total_pemasukan_produk')
+            ->get();
+
+        // Menghitung Total Pemasukan Keseluruhan hari ini (termasuk biaya pengiriman)
+        $totalPemasukanHariIni = Transaksi::whereDate('created_at', $today)->sum('total_harga'); //
+
+        return view('admin.pemasukan_harian', compact('rekapitulasiPenjualan', 'totalPemasukanHariIni', 'today'));
     }
 }

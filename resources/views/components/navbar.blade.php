@@ -36,6 +36,18 @@
                     @endphp
                     <a class="nav-link {{ $isChatActive ? 'active' : '' }}" href="#chat">Chat dengan Dokter</a>
                 </li>
+                @auth
+                    @if (Auth::user()->id_role === 1)
+                        <li class="nav-item">
+                            @php
+                                $isLaporanActive = request()->routeIs('admin.pemasukan.harian');
+                            @endphp
+                            <a class="nav-link {{ $isLaporanActive ? 'active' : '' }}" href="{{ route('admin.pemasukan.harian') }}">
+                                <i class="fas fa-chart-line me-1"></i> Laporan Penjualan
+                            </a>
+                        </li>
+                    @endif
+                @endauth
             </ul>
 
             {{-- Auth Buttons / Profile (Right) --}}
