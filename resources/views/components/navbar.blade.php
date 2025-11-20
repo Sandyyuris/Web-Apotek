@@ -46,6 +46,15 @@
                                 <i class="fas fa-chart-line me-1"></i> Laporan Penjualan
                             </a>
                         </li>
+                        {{-- BARU: Link Kelola Pesanan --}}
+                        <li class="nav-item">
+                            @php
+                                $isOrdersActive = request()->routeIs('admin.orders.manage');
+                            @endphp
+                            <a class="nav-link {{ $isOrdersActive ? 'active' : '' }}" href="{{ route('admin.orders.manage') }}">
+                                <i class="fas fa-tasks me-1"></i> Kelola Pesanan
+                            </a>
+                        </li>
                     @endif
                 @endauth
             </ul>

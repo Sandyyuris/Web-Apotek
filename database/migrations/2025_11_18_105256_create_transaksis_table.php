@@ -12,15 +12,16 @@ return new class extends Migration
         Schema::create('transaksis', function (Blueprint $table) {
             $table->id('id_transaksi');
             $table->unsignedBigInteger('id_users')->nullable();
-
             $table->string('kode_transaksi')->unique();
             $table->integer('total_harga');
-            $table->integer('biaya_pengiriman')->default(0); // <-- BARU
-            $table->string('tipe_pengiriman')->default('Diambil di Apotek'); // <-- BARU
-            $table->text('alamat_pengiriman')->nullable(); // <-- BARU
-            $table->string('metode_pembayaran')->default('Cash'); // <-- BARU
-            $table->string('status_pembayaran')->default('Pending'); // Ubah default menjadi Pending
-
+            $table->string('biaya_pengiriman')->nullable();
+            $table->string('tipe_pengiriman')->nullable();
+            $table->text('alamat_pengiriman')->nullable();
+            $table->string('metode_pembayaran');
+            $table->string('status_pembayaran')->default('Pending');
+            // START BARU: Tambahkan kolom status_pesanan
+            $table->string('status_pesanan')->default('Baru');
+            // END BARU
             $table->timestamps();
 
             $table->foreign('id_users')

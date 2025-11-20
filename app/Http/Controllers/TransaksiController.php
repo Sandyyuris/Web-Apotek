@@ -173,6 +173,7 @@ class TransaksiController extends Controller
                 'alamat_pengiriman' => $request->alamat_pengiriman, // <-- BARU
                 'metode_pembayaran' => $request->metode_pembayaran, // <-- BARU
                 'status_pembayaran' => 'Pending',
+                'status_pesanan' => 'Baru',
                  // Ubah status awal menjadi Pending
             ]);
 

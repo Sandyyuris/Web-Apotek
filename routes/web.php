@@ -52,6 +52,13 @@ Route::middleware(['auth'])->group(function () {
         Route::post('admin/artikel', [AdminController::class, 'storeArtikel'])->name('admin.artikel.store'); // <-- BARU
         Route::get('admin/produk/create', [AdminController::class, 'createProduk'])->name('admin.produk.create');
         Route::post('admin/produk', [AdminController::class, 'storeProduk'])->name('admin.produk.store'); // <-- BARU
-        Route::get('admin/pemasukan-harian', [AdminController::class, 'pemasukanHarian'])->name('admin.pemasukan.harian');
+        // Pemasukan harian
+        Route::get('admin/pemasukan/harian', [AdminController::class, 'pemasukanHarian'])->name('admin.pemasukan.harian');
+
+        // --- Rute Administrasi Pesanan BARU ---
+        Route::get('admin/pesanan', [AdminController::class, 'manageOrders'])->name('admin.orders.manage');
+        Route::post('admin/pesanan/{transaksi}/process', [AdminController::class, 'processOrder'])->name('admin.orders.process');
+        Route::post('admin/pesanan/{transaksi}/complete', [AdminController::class, 'completeOrder'])->name('admin.orders.complete');
+
     });
 });

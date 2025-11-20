@@ -110,26 +110,71 @@ class AdminController extends Controller
     public function pemasukanHarian(Request $request)
     {
         // Mendapatkan tanggal hari ini (sebagai string YYYY-MM-DD)
-        $today = Carbon::now()->toDateString(); //
+        $today = Carbon::now()->toDateString();
 
         // Mengambil semua detail transaksi hari ini, mengelompokkan per produk,
-        // dan menghitung total kuantitas dan total pemasukan per produk.
         $rekapitulasiPenjualan = DetailTransaksi::selectRaw('
                 produks.nama_produk,
                 detail_transaksis.harga_saat_transaksi AS harga_satuan,
                 SUM(detail_transaksis.jumlah) AS total_kuantitas_terjual,
                 SUM(detail_transaksis.subtotal) AS total_pemasukan_produk
             ')
-            ->join('transaksis', 'detail_transaksis.id_transaksi', '=', 'transaksis.id_transaksi') // Gabung ke Transaksi untuk filter tanggal
-            ->join('produks', 'detail_transaksis.id_produk', '=', 'produks.id_produk') // Gabung ke Produk untuk nama produk
-            ->whereDate('transaksis.created_at', $today) // Filter hanya untuk hari ini
+            ->join('transaksis', 'detail_transaksis.id_transaksi', '=', 'transaksis.id_transaksi')
+            ->join('produks', 'detail_transaksis.id_produk', '=', 'produks.id_produk')
+            // PERUBAHAN KRUSIAL: Filter HANYA yang status pembayarannya 'Lunas'
+            ->where('transaksis.status_pembayaran', 'Lunas')
+            ->whereDate('transaksis.created_at', $today)
             ->groupBy('produks.nama_produk', 'detail_transaksis.harga_saat_transaksi')
             ->orderByDesc('total_pemasukan_produk')
             ->get();
 
-        // Menghitung Total Pemasukan Keseluruhan hari ini (termasuk biaya pengiriman)
-        $totalPemasukanHariIni = Transaksi::whereDate('created_at', $today)->sum('total_harga'); //
+        // Menghitung Total Pemasukan Keseluruhan hari ini
+        $totalPemasukanHariIni = Transaksi::whereDate('created_at', $today)
+            // PERUBAHAN KRUSIAL: Filter HANYA yang status pembayarannya 'Lunas'
+            ->where('status_pembayaran', 'Lunas')
+            ->sum('total_harga');
 
-        return view('admin.pemasukan_harian', compact('rekapitulasiPenjualan', 'totalPemasukanHariIni', 'today'));
+        return view('admin.pemasukan', compact('rekapitulasiPenjualan', 'totalPemasukanHariIni', 'today'));
+    }
+
+    public function manageOrders()
+    {
+        // Mengambil transaksi yang statusnya 'Baru' atau 'Diproses'
+        // dan status pembayaran masih 'Pending'
+        $orders = Transaksi::with('user', 'detailTransaksis.produk')
+            ->whereIn('status_pesanan', ['Baru', 'Diproses'])
+            ->where('status_pembayaran', 'Pending')
+            ->latest()
+            ->paginate(10);
+
+        return view('admin.manajemen_pesanan', compact('orders'));
+    }
+
+    public function processOrder(Transaksi $transaksi)
+    {
+        if ($transaksi->status_pesanan === 'Selesai' || $transaksi->status_pembayaran === 'Lunas') {
+            return redirect()->back()->with('error', 'Pesanan sudah selesai atau sudah lunas.');
+        }
+
+        // Set status pesanan menjadi 'Diproses'
+        $transaksi->update([
+            'status_pesanan' => 'Diproses',
+        ]);
+
+        return redirect()->route('admin.orders.manage')->with('success', 'Pesanan ' . $transaksi->kode_transaksi . ' berhasil diubah menjadi Diproses.');
+    }
+
+    public function completeOrder(Transaksi $transaksi)
+    {
+        if ($transaksi->status_pesanan === 'Selesai' || $transaksi->status_pembayaran === 'Lunas') {
+            return redirect()->back()->with('error', 'Pesanan sudah selesai atau sudah lunas.');
+        }
+
+        $transaksi->update([
+            'status_pesanan' => 'Selesai',
+            'status_pembayaran' => 'Lunas',
+        ]);
+
+        return redirect()->route('admin.orders.manage')->with('success', 'Pesanan ' . $transaksi->kode_transaksi . ' berhasil diselesaikan dan dilunasi!');
     }
 }

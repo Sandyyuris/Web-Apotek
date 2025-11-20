@@ -22,6 +22,7 @@ class Transaksi extends Model
         'alamat_pengiriman', // <-- TAMBAH
         'metode_pembayaran', // <-- TAMBAH
         'status_pembayaran',
+        'status_pesanan',
     ];
 
     protected $table = 'transaksis';
