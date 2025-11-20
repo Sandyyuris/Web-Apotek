@@ -59,6 +59,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('admin/pesanan', [AdminController::class, 'manageOrders'])->name('admin.orders.manage');
         Route::post('admin/pesanan/{transaksi}/process', [AdminController::class, 'processOrder'])->name('admin.orders.process');
         Route::post('admin/pesanan/{transaksi}/complete', [AdminController::class, 'completeOrder'])->name('admin.orders.complete');
+        Route::get('admin/riwayat-pembelian/semua', [AdminController::class, 'allPurchaseHistory'])->name('admin.all.history');
 
     });
 });

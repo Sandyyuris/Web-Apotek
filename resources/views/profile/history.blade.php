@@ -20,7 +20,23 @@
                         <div class="card mb-3 shadow-sm">
                             <div class="card-header bg-light d-flex justify-content-between align-items-center">
                                 <h5 class="mb-0 fw-bold">Kode Transaksi: {{ $history->kode_transaksi }}</h5>
-                                <span class="badge bg-success">{{ $history->status_pembayaran }}</span>
+                                <div>
+                                    {{-- Logika untuk menentukan warna badge status pesanan --}}
+                                    @php
+                                        $statusPesananClass = [
+                                            'Baru' => 'danger',
+                                            'Diproses' => 'warning',
+                                            'Selesai' => 'success',
+                                            'Dibatalkan' => 'secondary'
+                                        ][$history->status_pesanan] ?? 'secondary';
+
+                                        $statusPembayaranClass = $history->status_pembayaran === 'Lunas' ? 'success' : 'secondary';
+                                    @endphp
+                                    {{-- Menampilkan Status Pesanan --}}
+                                    <span class="badge bg-{{ $statusPesananClass }} me-2"> {{ $history->status_pesanan }}</span>
+                                    {{-- Menampilkan Status Pembayaran yang sudah ada --}}
+                                    <span class="badge bg-{{ $statusPembayaranClass }}"> {{ $history->status_pembayaran }}</span>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <p class="mb-2">Tanggal: {{ \Carbon\Carbon::parse($history->created_at)->translatedFormat('d F Y H:i') }}</p>

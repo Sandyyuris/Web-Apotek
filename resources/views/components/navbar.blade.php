@@ -46,6 +46,14 @@
                                 <i class="fas fa-chart-line me-1"></i> Laporan Penjualan
                             </a>
                         </li>
+                        <li class="nav-item">
+                            @php
+                                $isAllHistoryActive = request()->routeIs('admin.all.history');
+                            @endphp
+                            <a class="nav-link {{ $isAllHistoryActive ? 'active' : '' }}" href="{{ route('admin.all.history') }}">
+                                <i class="fas fa-list me-1"></i> Semua Riwayat
+                            </a>
+                        </li>
                         {{-- BARU: Link Kelola Pesanan --}}
                         <li class="nav-item">
                             @php

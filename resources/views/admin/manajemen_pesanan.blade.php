@@ -11,9 +11,8 @@
                     <div class="text-center mb-5">
                         <h2 class="fw-bold mb-1 main-color">
                             <i class="fas fa-box-open me-2"></i>
-                            Daftar Pesanan Baru & Pending
+                            Daftar Pesanan
                         </h2>
-                        <p class="text-muted">Kelola pesanan yang masih berstatus **Baru** atau **Diproses** dengan pembayaran **Pending**.</p>
                     </div>
 
                     @if (session('success'))
@@ -44,7 +43,7 @@
                                     </div>
                                     <div class="col-md-6 text-md-end">
                                         @if ($order->tipe_pengiriman === 'Diantar')
-                                            <p class="mb-1">Alamat: **{{ $order->alamat_pengiriman }}**</p>
+                                            <p class="mb-1">Alamat: {{ $order->alamat_pengiriman }}</p>
                                         @else
                                             <p class="mb-1">Pengambilan di Apotek</p>
                                         @endif
@@ -73,7 +72,7 @@
                                     @endif
 
                                     {{-- Tombol untuk menyelesaikan pesanan dan melunasi pembayaran --}}
-                                    <form action="{{ route('admin.orders.complete', $order->id_transaksi) }}" method="POST" onsubmit="return confirm('Yakin pesanan ini sudah **Selesai** dan Pembayaran **Lunas**?')">
+                                    <form action="{{ route('admin.orders.complete', $order->id_transaksi) }}" method="POST" onsubmit="return confirm('Yakin pesanan ini sudah Selesai dan Pembayaran Lunas?')">
                                         @csrf
                                         <button type="submit" class="btn main-bg text-white btn-sm fw-bold">
                                             <i class="fas fa-check-circle me-1"></i> Selesaikan & Lunas
