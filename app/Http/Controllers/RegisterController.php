@@ -18,11 +18,15 @@ class RegisterController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'username' => 'required|string|unique:users,username|min:4|max:255', // Validasi unik
+            'nomor_telp' => 'required|string|max:15|min:10', // BARU: Tambah validasi nomor telp
             'password' => 'required|string|min:8|confirmed',
         ], [
             'name.required' => 'Nama wajib diisi.',
             'username.required' => 'Username wajib diisi.',
             'username.unique' => 'Username ini sudah terdaftar. Silakan gunakan yang lain.',
+            'nomor_telp.required' => 'Nomor Telepon wajib diisi.', // BARU
+            'nomor_telp.max' => 'Nomor Telepon maksimal 15 karakter.', // BARU
+            'nomor_telp.min' => 'Nomor Telepon minimal 10 karakter.', // BARU
             'password.required' => 'Password wajib diisi.',
             'password.min' => 'Password minimal 8 karakter.',
             'password.confirmed' => 'Konfirmasi password tidak cocok.',
@@ -34,6 +38,7 @@ class RegisterController extends Controller
         $user = User::create([
             'name' => $request->name,
             'username' => $request->username,
+            'nomor_telp' => $request->nomor_telp, // BARU: Simpan nomor telp
             // Password sudah di-hash secara otomatis di model User menggunakan mutator:
             // protected function casts(): array { return ['password' => 'hashed', ...]; }
             'password' => $request->password,

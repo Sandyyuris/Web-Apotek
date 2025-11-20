@@ -77,7 +77,7 @@ class AdminController extends Controller
     /**
      * Menyimpan produk baru ke database.
      */
-    public function storeProduk(Request $request) // <-- BARU
+    public function storeProduk(Request $request)
     {
         // 1. Lakukan Validasi
         $request->validate([
@@ -137,10 +137,16 @@ class AdminController extends Controller
         return view('admin.pemasukan', compact('rekapitulasiPenjualan', 'totalPemasukanHariIni', 'today'));
     }
 
+    /**
+     * Menampilkan halaman Manajemen Pesanan (Kelola Pesanan)
+     * Metode Asli: manageOrders()
+     * Rute: admin/pesanan
+     */
     public function manageOrders()
     {
         // Mengambil transaksi yang statusnya 'Baru' atau 'Diproses'
         // dan status pembayaran masih 'Pending'
+        // Eager load relasi 'user' untuk mendapatkan 'nomor_telp'
         $orders = Transaksi::with('user', 'detailTransaksis.produk')
             ->whereIn('status_pesanan', ['Baru', 'Diproses'])
             ->where('status_pembayaran', 'Pending')
@@ -177,13 +183,15 @@ class AdminController extends Controller
 
         return redirect()->route('admin.orders.manage')->with('success', 'Pesanan ' . $transaksi->kode_transaksi . ' berhasil diselesaikan dan dilunasi!');
     }
+
     public function allPurchaseHistory()
     {
-        // Eager load detail user, detail transaksi, dan produk terkait
         $allHistories = Transaksi::with(['user', 'detailTransaksis.produk'])
             ->latest()
-            ->paginate(15); // Paginasi untuk performa
+            ->paginate(15);
 
-        return view('admin.riwayat_semua_pembelian', compact('allHistories'));
+        $totalPemasukan = Transaksi::where('status_pembayaran', 'Lunas')->sum('total_harga');
+
+        return view('admin.riwayat_semua_pembelian', compact('allHistories', 'totalPemasukan'));
     }
 }

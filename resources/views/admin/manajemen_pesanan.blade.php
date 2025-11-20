@@ -22,12 +22,15 @@
                         <div class="alert alert-danger">{{ session('error') }}</div>
                     @endif
 
+                    {{-- PERBAIKAN: Menggunakan $orders (bukan $transaksis) --}}
                     @forelse ($orders as $order)
                         <div class="card mb-3 shadow-sm border-{{ $order->status_pesanan === 'Baru' ? 'danger' : 'warning' }}">
                             <div class="card-header d-flex justify-content-between align-items-center bg-light">
                                 <div>
                                     <h5 class="mb-0 fw-bold">#{{ $order->kode_transaksi }}</h5>
-                                    <small class="text-muted">Pelanggan: {{ $order->user->name ?? 'User Dihapus' }}</small>
+                                    <small class="text-muted d-block">Pelanggan: {{ $order->user->name ?? 'User Dihapus' }}</small>
+                                    {{-- BARU: Tampilkan Nomor Telepon --}}
+                                    <small class="text-muted">No. Telp: {{ $order->user->nomor_telp ?? '-' }}</small>
                                 </div>
                                 <div>
                                     <span class="badge bg-primary me-2">{{ $order->tipe_pengiriman }}</span>
@@ -88,7 +91,7 @@
                         </div>
                     @endforelse
 
-                    {{-- Tautan Paginasi --}}
+                    {{-- PERBAIKAN: Menggunakan $orders untuk Paginasi --}}
                     <div class="d-flex justify-content-center mt-4">
                         {{ $orders->links('pagination::bootstrap-5') }}
                     </div>

@@ -15,27 +15,37 @@
                         </h2>
                     </div>
 
+                    {{-- Menampilkan Total Pemasukan jika ada (Variabel ini dikirim dari AdminController) --}}
+                    @if (isset($totalPemasukan) && $totalPemasukan > 0)
+                        <div class="alert main-bg text-white text-center mb-4">
+                            <h4 class="mb-0">
+                                Total Pemasukan Lunas:
+                                <span class="fw-bold">Rp {{ number_format($totalPemasukan, 0, ',', '.') }}</span>
+                            </h4>
+                        </div>
+                    @endif
+
+                    {{-- PERBAIKAN: Menggunakan $allHistories yang dikirim dari controller --}}
                     @forelse ($allHistories as $history)
                         {{-- Warna border berdasarkan status pesanan --}}
-                        <div class="card mb-3 shadow-sm border-{{ $history->status_pesanan === 'Selesai' ? 'success' : ($history->status_pesanan === 'Baru' ? 'danger' : 'warning') }}">
+                        @php
+                            $statusPesananClass = [
+                                'Baru' => 'danger',
+                                'Diproses' => 'warning',
+                                'Selesai' => 'success',
+                                'Dibatalkan' => 'secondary' // Tambahkan jika ada status Batal
+                            ][$history->status_pesanan] ?? 'secondary';
+                            $statusPembayaranClass = $history->status_pembayaran === 'Lunas' ? 'success' : 'secondary';
+                        @endphp
+                        <div class="card mb-3 shadow-sm border-{{ $statusPesananClass }}">
                             <div class="card-header d-flex justify-content-between align-items-center bg-light">
                                 <div>
                                     <h5 class="mb-0 fw-bold">#{{ $history->kode_transaksi }}</h5>
                                     <small class="text-muted">Pelanggan: <strong>{{ $history->user->name ?? 'User Dihapus' }}</strong> (Username: {{ $history->user->username ?? '-' }})</small>
                                 </div>
                                 <div>
-                                    {{-- Status Pesanan --}}
-                                    @php
-                                        $statusPesananClass = [
-                                            'Baru' => 'danger',
-                                            'Diproses' => 'warning',
-                                            'Selesai' => 'success',
-                                        ][$history->status_pesanan] ?? 'secondary';
-                                        $statusPembayaranClass = $history->status_pembayaran === 'Lunas' ? 'success' : 'secondary';
-                                    @endphp
-                                    <span class="badge bg-{{ $statusPesananClass }} me-2">Pesanan: {{ $history->status_pesanan }}</span>
-                                    {{-- Status Pembayaran --}}
-                                    <span class="badge bg-{{ $statusPembayaranClass }}">Bayar: {{ $history->status_pembayaran }}</span>
+                                    <span class="badge bg-{{ $statusPesananClass }} me-2"> {{ $history->status_pesanan }}</span>
+                                    <span class="badge bg-{{ $statusPembayaranClass }}"> {{ $history->status_pembayaran }}</span>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -44,6 +54,8 @@
                                         <p class="mb-1">Tgl Transaksi: <strong>{{ \Carbon\Carbon::parse($history->created_at)->translatedFormat('d F Y H:i') }}</strong></p>
                                         <p class="mb-1">Metode Bayar: <strong>{{ $history->metode_pembayaran }}</strong></p>
                                         <p class="mb-1">Tipe Kirim: <strong>{{ $history->tipe_pengiriman }}</strong></p>
+                                        {{-- BARU: Menampilkan Nomor Telepon --}}
+                                        <p class="mb-1">Nomor Telp: <strong>{{ $history->user->nomor_telp ?? '-' }}</strong></p>
                                     </div>
                                     <div class="col-md-6 text-md-end">
                                         <p class="mb-1">Total Harga: <span class="fs-5 fw-bold main-color">Rp {{ number_format($history->total_harga, 0, ',', '.') }}</span></p>
@@ -65,6 +77,7 @@
 
                             </div>
                         </div>
+                    {{-- PERBAIKAN: Menggunakan $allHistories pada @empty --}}
                     @empty
                         <div class="text-center py-5">
                             <i class="fas fa-clipboard-list fa-4x text-muted mb-3"></i>
@@ -72,7 +85,7 @@
                         </div>
                     @endforelse
 
-                    {{-- Tautan Paginasi --}}
+                    {{-- PERBAIKAN: Menggunakan $allHistories untuk Paginasi --}}
                     <div class="d-flex justify-content-center mt-4">
                         {{ $allHistories->links('pagination::bootstrap-5') }}
                     </div>

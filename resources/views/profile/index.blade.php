@@ -28,6 +28,12 @@
                         <div class="col-md-4 fw-bold">Username</div>
                         <div class="col-md-8">: {{ $user->username }}</div>
                     </div>
+                    {{-- BARU: Nomor Telepon --}}
+                    <div class="row mb-3">
+                        <div class="col-md-4 fw-bold">Nomor Telepon</div>
+                        <div class="col-md-8">: {{ $user->nomor_telp ?? '-' }}</div> {{-- Menampilkan nomor telp --}}
+                    </div>
+                    {{-- END BARU --}}
                     <div class="row mb-3">
                         <div class="col-md-4 fw-bold">Peran (Role)</div>
                         <div class="col-md-8">: {{ $user->role->nama_role ?? 'Tidak Diketahui' }}</div>

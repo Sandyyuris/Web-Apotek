@@ -40,6 +40,19 @@
                         </div>
                     </div>
 
+                    {{-- BARU: Input Nomor Telepon --}}
+                    <div class="mb-3">
+                        <label for="nomor_telp" class="form-label fw-bold">Nomor Telepon</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                            <input id="nomor_telp" type="text" class="form-control @error('nomor_telp') is-invalid @enderror" name="nomor_telp" value="{{ old('nomor_telp') }}" required placeholder="Contoh: 081234567890">
+                            @error('nomor_telp')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    {{-- END BARU --}}
+
                     <div class="mb-3">
                         <label for="password" class="form-label fw-bold">Password</label>
                         <div class="input-group">

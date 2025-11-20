@@ -40,9 +40,13 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             // Username harus unik, kecuali jika itu adalah username saat ini
             'username' => ['required', 'string', 'min:4', 'max:255', Rule::unique('users', 'username')->ignore($user->id_users, 'id_users')],
+            'nomor_telp' => 'required|string|max:15|min:10', // BARU: Validasi nomor telp
             'password' => 'nullable|string|min:8|confirmed',
         ], [
             'username.unique' => 'Username ini sudah terdaftar. Silakan gunakan yang lain.',
+            'nomor_telp.required' => 'Nomor Telepon wajib diisi.', // BARU
+            'nomor_telp.max' => 'Nomor Telepon maksimal 15 karakter.', // BARU
+            'nomor_telp.min' => 'Nomor Telepon minimal 10 karakter.', // BARU
             'password.min' => 'Password minimal 8 karakter.',
             'password.confirmed' => 'Konfirmasi password tidak cocok.',
         ]);
@@ -50,6 +54,7 @@ class UserController extends Controller
         $data = [
             'name' => $request->name,
             'username' => $request->username,
+            'nomor_telp' => $request->nomor_telp, // BARU: Tambahkan nomor telp
         ];
 
         // Hanya perbarui password jika diisi

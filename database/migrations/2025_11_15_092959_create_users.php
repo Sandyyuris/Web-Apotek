@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('username')->unique(); // Unique dan bukan email
             $table->string('password');
+            $table->string('nomor_telp', 15)->nullable();
 
             $table->timestamps();
 
