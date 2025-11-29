@@ -270,4 +270,3 @@ class AdminController extends Controller
         return view('admin.riwayat_semua_pembelian', compact('allHistories', 'totalPemasukan'));
     }
 }
-// asdasd
